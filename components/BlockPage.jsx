@@ -7,11 +7,12 @@ import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import AboutSection from "./AboutUs";
-import { CalenderTest } from "./CalenderTest";
+import { CalendarTest } from "./CalenderTest";
 import ContactSection from "./ContactUs";
 import Footer from "./Footer";
 import HeroSection from "./HeroSection";
 import { HomePageDBCopy } from "./HomePageDBCopy";
+import Navbar from "./Navbar";
 import ServicesSection from "./ServiceSection";
 import TeamSection from "./TeamSection";
 import TestimonialTwo from "./TestimonialTwo";
@@ -27,7 +28,7 @@ export const metadata = {
 export function BlockPage() {
   return (
     <div className={`flex flex-col min-h-screen ${montserrat.className}`}>
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <header className="hidden sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             {/* <Image
@@ -58,6 +59,7 @@ export function BlockPage() {
           </Button>
         </div>
       </header>
+      <Navbar />
       <main className="flex-1">
         {/* Hero section */}
         <section className="hidden relative py-20 md:py-32  h-[600px] overflow-hidden">
@@ -150,7 +152,8 @@ export function BlockPage() {
         <AboutSection />
         {/* calender */}
         <section className="">
-          <CalenderTest />
+          {/* <CalenderTest /> */}
+          <CalendarTest />
           <div className="hidden">
             <HomePageDBCopy />
           </div>
@@ -170,7 +173,7 @@ export function BlockPage() {
 
         {/* action buttons section */}
         <section
-          id="book"
+          // id="book"
           className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black text-white relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-[url('/placeholder.svg?height=600&width=800')] opacity-10 bg-cover bg-center"></div>
