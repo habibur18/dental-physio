@@ -74,7 +74,7 @@ export default function Navbar() {
 
             <Button
               asChild
-              className="bg-teal-500 hover:bg-teal-600 text-black font-semibold"
+              className="bg-teal-500 hover:bg-teal-600 text-white font-semibold"
             >
               <Link href="#book">Book Now</Link>
             </Button>
