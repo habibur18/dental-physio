@@ -154,6 +154,8 @@ export function BlockPage() {
         <section className="">
           {/* <CalenderTest /> */}
           <CalendarTest />
+          {/* with error handling */}
+          {/* <NewCalendar /> */}
           <div className="hidden">
             <HomePageDBCopy />
           </div>

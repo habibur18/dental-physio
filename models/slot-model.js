@@ -9,4 +9,4 @@ const SlotSchema = new mongoose.Schema({
 });
 
 export const SlotModel =
-  mongoose.models.Slot ?? mongoose.model("Slot", SlotSchema);
+  mongoose.models.Slots ?? mongoose.model("Slots", SlotSchema);
