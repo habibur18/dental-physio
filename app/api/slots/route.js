@@ -1,5 +1,6 @@
 // export const dynamic = "force-dynamic";
 
+import connectMongo from "@/lib/connectMongo";
 import { SlotModel } from "@/models/slot-model";
 import { NextResponse } from "next/server";
 
@@ -121,6 +122,7 @@ const Demoslots = [
 // api/slots
 export async function GET() {
   try {
+    await connectMongo();
     const slots = await SlotModel.find({});
     return NextResponse.json(slots, { status: 200 });
   } catch (error) {
