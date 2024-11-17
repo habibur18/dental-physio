@@ -440,7 +440,7 @@ export function HomePageDB() {
   };
 
   return (
-    <div className="container mx-auto mx-auto p-4 bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen">
+    <div className="container mx-auto p-4 bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen">
       <Card className="w-full shadow-lg">
         <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
           <CardTitle className="text-3xl font-bold">
