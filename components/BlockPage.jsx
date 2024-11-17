@@ -7,12 +7,12 @@ import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import AboutSection from "./AboutUs";
+import { CalendarTest } from "./CalenderTest";
 import ContactSection from "./ContactUs";
 import Footer from "./Footer";
 import HeroSection from "./HeroSection";
 import { HomePageDBCopy } from "./HomePageDBCopy";
 import Navbar from "./Navbar";
-import { NewCalendar } from "./NewCalenderSection";
 import ServicesSection from "./ServiceSection";
 import TeamSection from "./TeamSection";
 import TestimonialTwo from "./TestimonialTwo";
@@ -153,9 +153,9 @@ export function BlockPage() {
         {/* calender */}
         <section className="">
           {/* <CalenderTest /> */}
-          {/* <CalendarTest /> */}
+          <CalendarTest />
           {/* with error handling */}
-          <NewCalendar />
+          {/* <NewCalendar /> */}
           <div className="hidden">
             <HomePageDBCopy />
           </div>
