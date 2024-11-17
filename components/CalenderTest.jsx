@@ -315,6 +315,7 @@
 
 "use client";
 
+import Loading from "@/app/loading";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -338,8 +339,9 @@ import {
   subMonths,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 
 const mockSlots = [
   {
@@ -466,30 +468,29 @@ export function CalendarTest() {
 
   useEffect(() => {
     async function fetchSlots() {
-      const res = await fetch("/api/slots");
-      const data = await res.json();
-      setSlots(data);
-      console.log(data);
+      try {
+        const res = await fetch("/api/slots");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setSlots(data);
+        console.log("Fetched slots:", data);
 
-      const dates = data.map((slot) => parseISO(slot.date));
-      console.log(dates);
+        const dates = data.map((slot) => parseISO(slot.date));
+        console.log("Parsed dates:", dates);
 
-      const newMinDate = min(dates);
-      const newMaxDate = max(dates);
+        const newMinDate = min(dates);
+        const newMaxDate = max(dates);
 
-      setMinDate(newMinDate);
-      setMaxDate(newMaxDate);
+        setMinDate(newMinDate);
+        setMaxDate(newMaxDate);
+      } catch (error) {
+        console.error("Error fetching slots:", error);
+      }
     }
     fetchSlots();
   }, []);
-  // useEffect(() => {
-  //   const dates = slots.map((slot) => parseISO(slot.date));
-  //   const newMinDate = min(dates);
-  //   const newMaxDate = max(dates);
-
-  //   setMinDate(newMinDate);
-  //   setMaxDate(newMaxDate);
-  // }, [slots]);
 
   const handlePreviousMonth = () => {
     const previousMonth = subMonths(selectedMonth, 1);
@@ -525,11 +526,14 @@ export function CalendarTest() {
   };
 
   const filteredSlots = useMemo(() => {
-    return slots.filter(
-      (slot) =>
-        (doctorGender === "all" ||
-          slot.gender.toLowerCase() === doctorGender) &&
-        isSameMonth(parseISO(slot.date), selectedMonth)
+    return (
+      slots &&
+      slots.filter(
+        (slot) =>
+          (doctorGender === "all" ||
+            slot.gender.toLowerCase() === doctorGender) &&
+          isSameMonth(parseISO(slot.date), selectedMonth)
+      )
     );
   }, [doctorGender, selectedMonth, slots]);
 
@@ -683,181 +687,189 @@ export function CalendarTest() {
   }, [slots, selectedMonth]);
 
   return (
-    <article
-      id="book"
-      className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"
-    >
-      <Card className="w-full max-w-[1600px] mx-auto bg-transparent border-none shadow-none ">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-white">
-            Book Your Appointments
-          </CardTitle>
-          <CardDescription className="text-teal-100 text-lg">
-            Book your physiotherapy session with our expert doctors
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6 rounded-lg">
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex gap-2">
-              {["all", "male", "female"].map((gender) => (
-                <FilterTab
-                  key={gender}
-                  active={doctorGender === gender}
-                  label={`${
-                    gender === "all"
-                      ? "All"
-                      : gender === "male"
-                      ? "Male"
-                      : "Female"
-                  } Dentors`}
-                  onClick={() => handleGenderChange(gender)}
-                />
-              ))}
-            </div>
-            <div className="flex items-center space-x-4 text-white">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handlePreviousMonth}
-                className="border-teal-500 text-teal-100 bg-teal-500/20 hover:bg-teal-500/20 hover:text-teal-100"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <span className="text-lg font-semibold">
-                {format(selectedMonth, "MMMM yyyy")}
-              </span>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleNextMonth}
-                className="border-teal-500 text-teal-100 bg-teal-500/20 hover:bg-teal-500/30 hover:text-teal-100"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-          {/* <div className="bg-black/30 rounded-lg shadow-inner p-4 border border-teal-500/20"> */}
-          <div className=" text-white text-center p-6 bg-teal-800/30 rounded-lg border-2 border-teal-500/50 shadow-lg">
-            {renderCalendar()}
-          </div>
-          {!hasAvailableSlotsForMonth && doctorGender !== "all" && (
-            <div className=" text-center p-6 bg-teal-800/30 rounded-lg border-2 border-teal-500/50 shadow-lg w-3/4 mx-auto mt-8 text-red-600">
-              <div className="mt-4  text-teal-100 font-bold text-center p-4 bg-teal-800/30 rounded-lg">
-                No{" "}
-                {doctorGender.charAt(0).toUpperCase() + doctorGender.slice(1)}{" "}
-                Dentors available for {format(selectedMonth, "MMMM yyyy")}.
-                {doctorGender === "female" && availableSlotsCount.male > 0 && (
-                  <>
-                    {" "}
-                    However, {availableSlotsCount.male}{" "}
-                    <span className="text-teal-200">Male Dentors</span>{" "}
-                    available.
-                  </>
-                )}
-                {doctorGender === "male" && availableSlotsCount.female > 0 && (
-                  <>
-                    {" "}
-                    However, {availableSlotsCount.female}{" "}
-                    <span className="text-teal-200"> Female Dentors</span>{" "}
-                    available.
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-          {/*  */}
-          {selectedDate && (
-            <div className="mt-6">
-              <h3 className="text-xl font-semibold mb-4 text-white">
-                Available Slots for {format(selectedDate, "EEEE, MMMM d, yyyy")}
-              </h3>
-              {filteredSlots.filter((slot) =>
-                isSameDay(parseISO(slot.date), selectedDate)
-              ).length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {filteredSlots
-                    .filter((slot) =>
-                      isSameDay(parseISO(slot.date), selectedDate)
-                    )
-                    .sort((a, b) => {
-                      const timeA = new Date(
-                        `1970-01-01T${convertTo24HourFormat(a.time)}`
-                      );
-                      const timeB = new Date(
-                        `1970-01-01T${convertTo24HourFormat(b.time)}`
-                      );
-                      return timeA - timeB;
-                    })
-                    .map((slot) => (
-                      <div
-                        key={slot._id}
-                        className="border border-teal-500/20 p-4 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/[0.15] transition-colors cursor-pointer"
-                      >
-                        <div>
-                          <div className="text-lg font-semibold text-white">
-                            {slot.time}
-                          </div>
-                          <div className="text-sm text-teal-100 flex gap-3 items-center">
-                            <Image
-                              src={
-                                slot.gender.toLowerCase() === "male"
-                                  ? "/maleIcon.svg"
-                                  : "/FemaleIcon.svg"
-                              }
-                              width={20}
-                              height={20}
-                              alt="gender icon"
-                            />
-                            {slot.gender.toLowerCase() === "male"
-                              ? "Male Doctor"
-                              : "Female Doctor"}
-                          </div>
-                          <div className="text-sm text-teal-200">
-                            {slot.doctor}
-                          </div>
-                        </div>
-                        <div className="self-end">
-                          <Button
-                            variant="outline"
-                            className="w-full bg-teal-500/10 hover:bg-teal-500 text-teal-100 hover:text-white text-lg duration-300 border-teal-500/30"
-                          >
-                            Book Now
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
+    <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => {}}>
+      <Suspense fallback={<Loading />}>
+        <article
+          id="book"
+          className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"
+        >
+          <Card className="w-full max-w-[1600px] mx-auto bg-transparent border-none shadow-none ">
+            <CardHeader className="text-center">
+              <CardTitle className="text-3xl font-bold text-white">
+                Book Your Appointments
+              </CardTitle>
+              <CardDescription className="text-teal-100 text-lg">
+                Book your physiotherapy session with our expert doctors
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6 rounded-lg">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex gap-2">
+                  {["all", "male", "female"].map((gender) => (
+                    <FilterTab
+                      key={gender}
+                      active={doctorGender === gender}
+                      label={`${
+                        gender === "all"
+                          ? "All"
+                          : gender === "male"
+                          ? "Male"
+                          : "Female"
+                      } Dentors`}
+                      onClick={() => handleGenderChange(gender)}
+                    />
+                  ))}
                 </div>
-              ) : (
-                <div className="text-white text-center p-6 bg-teal-800/30 rounded-lg border-2 border-teal-500/50 shadow-lg">
-                  <p className="text-xl font-semibold mb-2">
-                    No slots available with{" "}
-                    {doctorGender === "all"
-                      ? "any"
-                      : `${
-                          doctorGender.charAt(0).toUpperCase() +
-                          doctorGender.slice(1)
-                        }`}{" "}
-                    Dentors for {format(selectedDate, "EEEE, MMMM d, yyyy")}
-                  </p>
-                  {doctorGender !== "all" &&
-                    slots.some(
-                      (slot) =>
-                        isSameDay(parseISO(slot.date), selectedDate) &&
-                        slot.gender.toLowerCase() !== doctorGender
-                    ) && (
-                      <p className="text-lg text-teal-300">
-                        However, {getOppositeGender(doctorGender)} Dentors are
-                        available for this date.
-                      </p>
-                    )}
+                <div className="flex items-center space-x-4 text-white">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handlePreviousMonth}
+                    className="border-teal-500 text-teal-100 bg-teal-500/20 hover:bg-teal-500/20 hover:text-teal-100"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <span className="text-lg font-semibold">
+                    {format(selectedMonth, "MMMM yyyy")}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleNextMonth}
+                    className="border-teal-500 text-teal-100 bg-teal-500/20 hover:bg-teal-500/30 hover:text-teal-100"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+              {/* <div className="bg-black/30 rounded-lg shadow-inner p-4 border border-teal-500/20"> */}
+              <div className=" text-white text-center p-6 bg-teal-800/30 rounded-lg border-2 border-teal-500/50 shadow-lg">
+                {renderCalendar()}
+              </div>
+              {!hasAvailableSlotsForMonth && doctorGender !== "all" && (
+                <div className=" text-center p-6 bg-teal-800/30 rounded-lg border-2 border-teal-500/50 shadow-lg w-3/4 mx-auto mt-8 text-red-600">
+                  <div className="mt-4  text-teal-100 font-bold text-center p-4 bg-teal-800/30 rounded-lg">
+                    No{" "}
+                    {doctorGender.charAt(0).toUpperCase() +
+                      doctorGender.slice(1)}{" "}
+                    Dentors available for {format(selectedMonth, "MMMM yyyy")}.
+                    {doctorGender === "female" &&
+                      availableSlotsCount.male > 0 && (
+                        <>
+                          {" "}
+                          However, {availableSlotsCount.male}{" "}
+                          <span className="text-teal-200">Male Dentors</span>{" "}
+                          available.
+                        </>
+                      )}
+                    {doctorGender === "male" &&
+                      availableSlotsCount.female > 0 && (
+                        <>
+                          {" "}
+                          However, {availableSlotsCount.female}{" "}
+                          <span className="text-teal-200"> Female Dentors</span>{" "}
+                          available.
+                        </>
+                      )}
+                  </div>
                 </div>
               )}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
-    </article>
+              {/*  */}
+              {selectedDate && (
+                <div className="mt-6">
+                  <h3 className="text-xl font-semibold mb-4 text-white">
+                    Available Slots for{" "}
+                    {format(selectedDate, "EEEE, MMMM d, yyyy")}
+                  </h3>
+                  {filteredSlots.filter((slot) =>
+                    isSameDay(parseISO(slot.date), selectedDate)
+                  ).length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {filteredSlots
+                        .filter((slot) =>
+                          isSameDay(parseISO(slot.date), selectedDate)
+                        )
+                        .sort((a, b) => {
+                          const timeA = new Date(
+                            `1970-01-01T${convertTo24HourFormat(a.time)}`
+                          );
+                          const timeB = new Date(
+                            `1970-01-01T${convertTo24HourFormat(b.time)}`
+                          );
+                          return timeA - timeB;
+                        })
+                        .map((slot) => (
+                          <div
+                            key={slot._id}
+                            className="border border-teal-500/20 p-4 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/[0.15] transition-colors cursor-pointer"
+                          >
+                            <div>
+                              <div className="text-lg font-semibold text-white">
+                                {slot.time}
+                              </div>
+                              <div className="text-sm text-teal-100 flex gap-3 items-center">
+                                <Image
+                                  src={
+                                    slot.gender.toLowerCase() === "male"
+                                      ? "/maleIcon.svg"
+                                      : "/FemaleIcon.svg"
+                                  }
+                                  width={20}
+                                  height={20}
+                                  alt="gender icon"
+                                />
+                                {slot.gender.toLowerCase() === "male"
+                                  ? "Male Doctor"
+                                  : "Female Doctor"}
+                              </div>
+                              <div className="text-sm text-teal-200">
+                                {slot.doctor}
+                              </div>
+                            </div>
+                            <div className="self-end">
+                              <Button
+                                variant="outline"
+                                className="w-full bg-teal-500/10 hover:bg-teal-500 text-teal-100 hover:text-white text-lg duration-300 border-teal-500/30"
+                              >
+                                Book Now
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  ) : (
+                    <div className="text-white text-center p-6 bg-teal-800/30 rounded-lg border-2 border-teal-500/50 shadow-lg">
+                      <p className="text-xl font-semibold mb-2">
+                        No slots available with{" "}
+                        {doctorGender === "all"
+                          ? "any"
+                          : `${
+                              doctorGender.charAt(0).toUpperCase() +
+                              doctorGender.slice(1)
+                            }`}{" "}
+                        Dentors for {format(selectedDate, "EEEE, MMMM d, yyyy")}
+                      </p>
+                      {doctorGender !== "all" &&
+                        slots.some(
+                          (slot) =>
+                            isSameDay(parseISO(slot.date), selectedDate) &&
+                            slot.gender.toLowerCase() !== doctorGender
+                        ) && (
+                          <p className="text-lg text-teal-300">
+                            However, {getOppositeGender(doctorGender)} Dentors
+                            are available for this date.
+                          </p>
+                        )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
+        </article>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
@@ -875,4 +887,14 @@ function convertTo24HourFormat(timeStr) {
   }
 
   return `${hours.padStart(2, "0")}:${minutes}:00`;
+}
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
 }
