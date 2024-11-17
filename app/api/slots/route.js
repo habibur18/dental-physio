@@ -3,7 +3,7 @@
 import { SlotModel } from "@/models/slot-model";
 import { NextResponse } from "next/server";
 
-const slots = [
+const Demoslots = [
   {
     _id: "670a53e7763bc91ff1dd242b",
     date: "2024-11-15",
@@ -121,7 +121,7 @@ const slots = [
 // api/slots
 export async function GET() {
   try {
-    // const slots = await SlotModel.find({});
+    const slots = await SlotModel.find({});
     return NextResponse.json(slots, { status: 200 });
   } catch (error) {
     return NextResponse.json(
