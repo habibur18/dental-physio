@@ -135,6 +135,7 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    await connectMongo();
     const { date, time, doctor, gender } = await request.json();
     const newSlot = new SlotModel({ date, time, doctor, gender });
     await newSlot.save();

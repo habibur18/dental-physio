@@ -459,13 +459,12 @@ const mockSlots = [
 ];
 
 export function CalendarTest() {
-  const [slots, setSlots] = useState(mockSlots);
+  const [slots, setSlots] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(undefined);
   const [doctorGender, setDoctorGender] = useState("all");
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
-
   useEffect(() => {
     async function fetchSlots() {
       try {
