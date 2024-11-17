@@ -28,7 +28,7 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-teal-900 via-black to-teal-900 text-white py-16 relative overflow-hidden">
-      {/* <div className="absolute inset-0 bg-[url('/placeholder.svg?height=600&width=800')] opacity-5 bg-cover bg-center"></div> */}
+      <div className="absolute inset-0 bg-[url('https://img.freepik.com/free-photo/futuristic-metaverse-empty-room-product-display-presentation-abstract-technology-scifi-with-neon-light-3d-background_56104-2314.jpg')] opacity-5 bg-cover bg-center"></div>
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid md:grid-cols-4 gap-12">
           <motion.div

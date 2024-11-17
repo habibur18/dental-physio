@@ -23,7 +23,8 @@ export default function ContactSection() {
       id="contact"
       className="py-16 md:py-24 bg-gradient-to-br from-teal-900 via-black to-teal-900 text-white relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-[url('/placeholder.svg?height=600&width=800')] opacity-5 bg-cover bg-center"></div>
+      {/* Gradient Orbs */}
+      {/* <div className="absolute inset-0 bg-[url('https://png.pngtree.com/background/20211217/original/pngtree-abstract-bg-picture-image_1596862.jpg')] opacity-10 bg-cover bg-center"></div> */}
       <div className="container mx-auto px-4 relative z-10">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-teal-300">
           Get in Touch

@@ -289,6 +289,7 @@ import {
   subMonths,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 export function HomePageDB() {
@@ -509,13 +510,14 @@ export function HomePageDB() {
                         {slot.time}
                       </div>
                       <div className="text-sm text-gray-500 flex gap-3 items-center">
-                        <img
+                        <Image
                           src={
                             slot.gender.toLowerCase() === "male"
                               ? "/maleIcon.svg"
                               : "/FemaleIcon.svg"
                           }
-                          className="w-5 h-5"
+                          width={20}
+                          height={20}
                           alt=""
                         />
                         {slot.gender.toLowerCase() === "male"

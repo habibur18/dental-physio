@@ -176,7 +176,7 @@ export function BlockPage() {
           // id="book"
           className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black text-white relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[url('/placeholder.svg?height=600&width=800')] opacity-10 bg-cover bg-center"></div>
+          {/* <div className="absolute inset-0 bg-[url('/https://png.pngtree.com/background/20211217/original/pngtree-abstract-bg-picture-image_1596862.jpg')] opacity-10 bg-cover bg-center"></div> */}
           <div className="container mx-auto text-center relative z-10">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-teal-300">
               Ready to Start Your Recovery Journey?
