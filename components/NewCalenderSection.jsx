@@ -1,6 +1,5 @@
 "use client";
 
-import Loading from "@/app/loading";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,6 +25,7 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Suspense, useEffect, useMemo, useState } from "react";
+import CalendarLoading from "./CalenderLoading";
 
 export function NewCalendar() {
   const [slots, setSlots] = useState([]);
@@ -257,7 +257,7 @@ export function NewCalendar() {
   }, [slots, selectedMonth]);
 
   if (isLoading) {
-    return <Loading />;
+    return <CalendarLoading />;
   }
 
   if (error) {
@@ -270,7 +270,7 @@ export function NewCalendar() {
   }
 
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<div>loadinh </div>}>
       <article
         id="book"
         className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"

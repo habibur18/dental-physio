@@ -23,7 +23,8 @@ import {
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import CalendarLoading from "./CalenderLoading";
 
 export function HomePageDBCopy() {
   const [slots, setSlots] = useState([]);
@@ -190,111 +191,122 @@ export function HomePageDBCopy() {
   };
 
   return (
-    <Card className="w-full container mx-auto border-none shadow-none ">
-      <CardHeader className=" text-black text-center ">
-        <CardTitle className="text-3xl font-bold">
-          Book Your Appointments
-        </CardTitle>
-        <CardDescription className="text-black text-lg">
-          Book your physiotherapy session with our expert doctors
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="p-6  rounded-lg">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex gap-2">
-            {["all", "male", "female"].map((gender) => (
-              <FilterTab
-                key={gender}
-                active={doctorGender === gender}
-                label={`${
-                  gender === "all"
-                    ? "All"
-                    : gender === "male"
-                    ? "Male"
-                    : "Female"
-                } Dentors`}
-                onClick={() => setDoctorGender(gender)}
-              />
-            ))}
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-lg font-semibold">
-              {format(selectedMonth, "MMMM yyyy")}
-            </span>
-            <Button variant="outline" size="icon" onClick={handleNextMonth}>
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-        <div className="bg-white rounded-lg shadow-inner p-4">
-          {renderCalendar()}
-        </div>
-        {selectedDate && (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold mb-4">
-              Available Slots for {format(selectedDate, "EEEE, MMMM d, yyyy")}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {filteredSlots
-                .filter((slot) => isSameDay(parseISO(slot.date), selectedDate))
-                .sort((a, b) => {
-                  const timeA = new Date(
-                    `1970-01-01T${convertTo24HourFormat(a.time)}`
-                  );
-                  const timeB = new Date(
-                    `1970-01-01T${convertTo24HourFormat(b.time)}`
-                  );
-                  return timeA - timeB;
-                })
-                .map((slot) => (
-                  <div
-                    key={slot._id}
-                    className="border p-4 rounded-lg bg-gray-100  cursor-pointer "
-                  >
-                    <div>
-                      <div className="text-lg font-semibold">
-                        {/* {format(parseISO(slot.date), "h:mm a")} new */}
-                        {slot.time}
-                      </div>
-                      <div className="text-sm text-gray-500 flex gap-3 items-center">
-                        <Image
-                          src={
-                            slot.gender.toLowerCase() === "male"
-                              ? "/maleIcon.svg"
-                              : "/FemaleIcon.svg"
-                          }
-                          width={20}
-                          height={20}
-                          alt=" gender icon"
-                        />
-                        {slot.gender.toLowerCase() === "male"
-                          ? "Male Doctor"
-                          : "Female Doctor"}
-                      </div>
-                      {/* doctor name */}
-                      <div className="text-sm text-gray-500">
-                        {" "}
-                        {slot.doctor}
-                      </div>
-                    </div>
-                    <div className="self-end">
-                      <Button
-                        variant="outline"
-                        className="w-full bg-teal-100 hover:bg-teal-500 hover:text-white text-teal-600 text-lg duration-300"
-                      >
-                        Book Now
-                      </Button>
-                    </div>
-                  </div>
+    <>
+      <Suspense fallback={<CalendarLoading />}>
+        <Card className="w-full container mx-auto border-none shadow-none ">
+          <CardHeader className=" text-black text-center ">
+            <CardTitle className="text-3xl font-bold">
+              Book Your Appointments
+            </CardTitle>
+            <CardDescription className="text-black text-lg">
+              Book your physiotherapy session with our expert doctors
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-6  rounded-lg">
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex gap-2">
+                {["all", "male", "female"].map((gender) => (
+                  <FilterTab
+                    key={gender}
+                    active={doctorGender === gender}
+                    label={`${
+                      gender === "all"
+                        ? "All"
+                        : gender === "male"
+                        ? "Male"
+                        : "Female"
+                    } Dentors`}
+                    onClick={() => setDoctorGender(gender)}
+                  />
                 ))}
+              </div>
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handlePreviousMonth}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="text-lg font-semibold">
+                  {format(selectedMonth, "MMMM yyyy")}
+                </span>
+                <Button variant="outline" size="icon" onClick={handleNextMonth}>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+            <div className="bg-white rounded-lg shadow-inner p-4">
+              {renderCalendar()}
+            </div>
+            {selectedDate && (
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold mb-4">
+                  Available Slots for{" "}
+                  {format(selectedDate, "EEEE, MMMM d, yyyy")}
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {filteredSlots
+                    .filter((slot) =>
+                      isSameDay(parseISO(slot.date), selectedDate)
+                    )
+                    .sort((a, b) => {
+                      const timeA = new Date(
+                        `1970-01-01T${convertTo24HourFormat(a.time)}`
+                      );
+                      const timeB = new Date(
+                        `1970-01-01T${convertTo24HourFormat(b.time)}`
+                      );
+                      return timeA - timeB;
+                    })
+                    .map((slot) => (
+                      <div
+                        key={slot._id}
+                        className="border p-4 rounded-lg bg-gray-100  cursor-pointer "
+                      >
+                        <div>
+                          <div className="text-lg font-semibold">
+                            {/* {format(parseISO(slot.date), "h:mm a")} new */}
+                            {slot.time}
+                          </div>
+                          <div className="text-sm text-gray-500 flex gap-3 items-center">
+                            <Image
+                              src={
+                                slot.gender.toLowerCase() === "male"
+                                  ? "/maleIcon.svg"
+                                  : "/FemaleIcon.svg"
+                              }
+                              width={20}
+                              height={20}
+                              alt=" gender icon"
+                            />
+                            {slot.gender.toLowerCase() === "male"
+                              ? "Male Doctor"
+                              : "Female Doctor"}
+                          </div>
+                          {/* doctor name */}
+                          <div className="text-sm text-gray-500">
+                            {" "}
+                            {slot.doctor}
+                          </div>
+                        </div>
+                        <div className="self-end">
+                          <Button
+                            variant="outline"
+                            className="w-full bg-teal-100 hover:bg-teal-500 hover:text-white text-teal-600 text-lg duration-300"
+                          >
+                            Book Now
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </Suspense>
+    </>
   );
 }
 
