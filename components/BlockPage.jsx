@@ -6,9 +6,7 @@ import { CheckCircle } from "lucide-react";
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import AboutSection from "./AboutUs";
-import CalendarLoading from "./CalenderLoading";
 import ContactSection from "./ContactUs";
 import Footer from "./Footer";
 import HeroSection from "./HeroSection";
@@ -155,12 +153,7 @@ export function BlockPage() {
         <section className="">
           {/* <CalenderTest /> */}
           {/* <CalendarTest /> */}
-          {/* with error handling */}
-          <Suspense fallback={<CalendarLoading />}>
-            {" "}
-            <NewCalendar />
-          </Suspense>
-
+          {/* with error handling */} <NewCalendar />
           <div className="hidden">{/* <HomePageDBCopy /> */}</div>
         </section>
         {/* services section */}
@@ -168,6 +161,7 @@ export function BlockPage() {
         <ServicesSection />
 
         {/* team section */}
+
         <TeamSection />
 
         <section id="testimonials" className=" hidden py-16 md:py-24 bg-white">

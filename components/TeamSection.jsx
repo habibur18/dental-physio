@@ -157,7 +157,10 @@ const CompactCard = ({ member }) => (
 );
 export default function TeamSection() {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden">
+    <section
+      id="team"
+      className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"
+    >
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">

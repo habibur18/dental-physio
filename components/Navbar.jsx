@@ -31,11 +31,12 @@ export default function Navbar() {
             <span className="text-2xl font-bold text-white">Austin Physio</span>
           </Link>
 
-          <nav className="hidden md:flex space-x-1">
+          <nav className="hidden lg:flex space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
                 className="rounded-full px-4 py-2 text-sm font-medium text-teal-100 hover:bg-teal-500/10 hover:text-teal-300 transition-colors"
               >
                 {item.name}

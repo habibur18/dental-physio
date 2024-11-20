@@ -25,7 +25,6 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import CalendarLoading from "./CalenderLoading";
 
 export function NewCalendar() {
   const [slots, setSlots] = useState([]);
@@ -34,13 +33,13 @@ export function NewCalendar() {
   const [doctorGender, setDoctorGender] = useState("all");
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchSlots() {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         const res = await fetch("/api/slots");
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -65,7 +64,7 @@ export function NewCalendar() {
         console.error("Error fetching slots:", error);
         setError(error.message);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     }
     fetchSlots();
@@ -256,9 +255,9 @@ export function NewCalendar() {
     return { male: maleSlots, female: femaleSlots };
   }, [slots, selectedMonth]);
 
-  if (isLoading) {
-    return <CalendarLoading />;
-  }
+  // if (isLoading) {
+  //   return <CalendarLoading />;
+  // }
 
   if (error) {
     return (
@@ -270,7 +269,7 @@ export function NewCalendar() {
   }
 
   return (
-    <Suspense fallback={<div>loadinh </div>}>
+    <Suspense fallback={<div>loading.................. </div>}>
       <article
         id="book"
         className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"
