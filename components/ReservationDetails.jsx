@@ -14,7 +14,7 @@ const slotData = {
   gender: "Female",
   reservation: "2024-11-20T15:25:46.269Z",
 };
-export default function ReservationDetails() {
+export default function ReservationDetails({ slotData }) {
   return (
     <div className="space-y-6">
       <Card className="bg-black/40 backdrop-blur-md border-teal-500/20">
