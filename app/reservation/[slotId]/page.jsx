@@ -55,7 +55,10 @@ export default async function ReservationPage({ params }) {
     reservation: "2024-11-20T15:25:46.269Z",
   };
   const { slotId } = await params;
-  const res = await fetch(`${process.env.BASE_URL}/slots/${slotId}`);
+  const res = await fetch(`${process.env.BASE_URL}/slots/${slotId}`, {
+    cache: "no-cache",
+    next: { revalidate: 0 },
+  });
   const data = await res.json();
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white">
@@ -63,7 +66,7 @@ export default async function ReservationPage({ params }) {
       <StickyTimer reservation={data.revervation} />
       <main className="container max-w-[1000px] mx-auto p-4 mt-8">
         {/* Slot Details Card */}
-        <ReservationDetails />
+        <ReservationDetails slotData={data} />
         {/* Form Section */}
         <div className="mt-8">
           {/* Main Form Section */}
