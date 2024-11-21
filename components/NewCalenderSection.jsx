@@ -338,9 +338,9 @@ export function NewCalendar() {
         const data = await res.json(); // Optional: Log the data for debugging
 
         console.log(data);
-        // router.push(`/reservation/${_id}`); // Redirect to the reservation page
+        router.push(`/reservation/${_id}`); // Redirect to the reservation page
         // window.location.href = `/reservation/${_id}`;
-        window.open(`/reservation/${_id}`, "_blank");
+        // window.open(`/reservation/${_id}`, "_blank");
       } else {
         throw new Error("Failed to update the reservation.");
       }
