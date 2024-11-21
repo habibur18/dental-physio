@@ -5,14 +5,39 @@ import connectMongo from "@/lib/connectMongo";
 import { SlotModel } from "@/models/slot-model";
 import { NextResponse } from "next/server";
 
+// export async function GET() {
+//   try {
+//     await connectMongo();
+//     const slots = await SlotModel.find({});
+//     return NextResponse.json(slots, { status: 200 });
+//   } catch (error) {
+//     return NextResponse.json(
+//       { error: "Error fetching slots" + error },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 export async function GET() {
   try {
     await connectMongo();
-    const slots = await SlotModel.find({});
+
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Update expired reservations by removing their reservation data
+    await SlotModel.updateMany(
+      { revervation: { $lt: currentDate } }, // Find slots with expired reservations
+      { $unset: { revervation: "" } } // Remove reservation data
+    );
+
+    // Fetch slots with no reservation data
+    const slots = await SlotModel.find({ revervation: { $exists: false } });
+
     return NextResponse.json(slots, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Error fetching slots" + error },
+      { error: "Error fetching slots: " + error.message },
       { status: 500 }
     );
   }

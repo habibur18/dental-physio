@@ -34,7 +34,6 @@ export async function PUT(request, { params }) {
   }
 }
 
-// add        extra 5 minutes to the slot base on user request with previous left time. Get data from the request
 export async function PATCH(request, { params }) {
   try {
     await connectMongo();
@@ -51,8 +50,22 @@ export async function PATCH(request, { params }) {
       );
     }
 
-    // Add 5 minutes to the current reservation time
-    slot.revervation = new Date(slot.revervation.getTime() + 5 * 60 * 1000);
+    // Parse the existing reservation time
+    const existingReservation = new Date(slot.revervation);
+    const now = new Date();
+
+    // Determine the new reservation time
+    let newReservation;
+    if (existingReservation > now) {
+      // Add 5 minutes to the existing reservation time
+      newReservation = new Date(existingReservation.getTime() + 5 * 60 * 1000);
+    } else {
+      // Set the reservation time to current time + 5 minutes
+      newReservation = new Date(now.getTime() + 5 * 60 * 1000);
+    }
+
+    // Update the slot's reservation time
+    slot.revervation = newReservation;
 
     // Save the updated slot
     await slot.save();
@@ -60,6 +73,37 @@ export async function PATCH(request, { params }) {
     // Return the updated slot
     return NextResponse.json(slot, { status: 200 });
   } catch (error) {
+    console.error("Error updating slot:", error);
     return NextResponse.json({ error: "Error updating slot" }, { status: 500 });
   }
 }
+
+// add extra 5 minutes
+// export async function PATCH(request, { params }) {
+//   try {
+//     await connectMongo();
+//     const { id } = params;
+
+//     // Find the slot by ID
+//     const slot = await SlotModel.findById(id);
+
+//     // Check if the slot has an existing reservation
+//     if (!slot.revervation) {
+//       return NextResponse.json(
+//         { error: "No existing reservation found" },
+//         { status: 400 }
+//       );
+//     }
+
+//     // Add 5 minutes to the current reservation time
+//     slot.revervation = new Date(Date.now() + 5 * 60 * 1000);
+
+//     // Save the updated slot
+//     await slot.save();
+
+//     // Return the updated slot
+//     return NextResponse.json(slot, { status: 200 });
+//   } catch (error) {
+//     return NextResponse.json({ error: "Error updating slot" }, { status: 500 });
+//   }
+// }

@@ -1,4 +1,4 @@
-import { CalendarIcon, MapPin, User } from "lucide-react";
+import { CalendarIcon, DollarSign, MapPin, User } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -43,6 +43,10 @@ export default function ReservationDetails({ slotData }) {
                 <div className="font-medium">{slotData.date}</div>
                 <div className="text-sm text-teal-300/70">{slotData.time}</div>
               </div>
+            </div>
+            <div className="flex items-center gap-3 text-teal-100">
+              <DollarSign className="h-5 w-5 text-teal-400" />
+              <div className="font-medium">200</div>
             </div>
             <div className="flex items-center gap-3 text-teal-100">
               <MapPin className="h-5 w-5 text-teal-400" />

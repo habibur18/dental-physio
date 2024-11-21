@@ -26,6 +26,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
+import CalendarLoading from "./CalenderLoading";
 
 export function NewCalendar() {
   const [slots, setSlots] = useState([]);
@@ -35,19 +36,62 @@ export function NewCalendar() {
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
   const router = useRouter();
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isFirstFetch, setIsFirstFetch] = useState(true); // Track the first fetch
+
+  // useEffect(() => {
+  //   async function fetchSlots() {
+  //     try {
+  //       setIsLoading(true);
+  //       const res = await fetch(
+  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/slots`
+  //       );
+  //       if (!res.ok) {
+  //         throw new Error(`HTTP error! status: ${res.status}`);
+  //       }
+  //       const data = await res.json();
+  //       if (!Array.isArray(data)) {
+  //         throw new Error("Invalid data format: expected an array");
+  //       }
+  //       setSlots(data);
+  //       console.log("Fetched slots:", data);
+
+  //       const dates = data.map((slot) => parseISO(slot.date));
+  //       console.log("Parsed dates:", dates);
+
+  //       if (dates.length > 0) {
+  //         const newMinDate = min(dates);
+  //         const newMaxDate = max(dates);
+  //         setMinDate(newMinDate);
+  //         setMaxDate(newMaxDate);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching slots:", error);
+  //       setError(error.message);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  //   fetchSlots(); // Fetch slots initially
+  //   const interval = setInterval(fetchSlots, 5000); // Fetch slots every 5 seconds
+  //   return () => clearInterval(interval);
+  // }, []);
 
   useEffect(() => {
     async function fetchSlots() {
       try {
-        // setIsLoading(true);
+        if (isFirstFetch) {
+          setIsLoading(true); // Show loading only during the first fetch
+        }
+
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/slots`
         );
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
+
         const data = await res.json();
         if (!Array.isArray(data)) {
           throw new Error("Invalid data format: expected an array");
@@ -68,11 +112,17 @@ export function NewCalendar() {
         console.error("Error fetching slots:", error);
         setError(error.message);
       } finally {
-        // setIsLoading(false);
+        if (isFirstFetch) {
+          setIsLoading(false); // Stop loading after the first fetch
+          setIsFirstFetch(false); // Set to false after first fetch
+        }
       }
     }
-    fetchSlots();
-  }, []);
+
+    fetchSlots(); // Fetch slots initially
+    const interval = setInterval(fetchSlots, 5000); // Fetch slots every 5 seconds
+    return () => clearInterval(interval);
+  }, [isFirstFetch]); // Dependency array to track isFirstFetch state
 
   const handlePreviousMonth = () => {
     const previousMonth = subMonths(selectedMonth, 1);
@@ -259,9 +309,9 @@ export function NewCalendar() {
     return { male: maleSlots, female: femaleSlots };
   }, [slots, selectedMonth]);
 
-  // if (isLoading) {
-  //   return <CalendarLoading />;
-  // }
+  if (isLoading) {
+    return <CalendarLoading />;
+  }
 
   if (error) {
     return (
@@ -316,7 +366,7 @@ export function NewCalendar() {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6 rounded-lg">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-center sm:justify-between flex-wrap sm:flex-nowrap gap-y-5  items-center mb-6">
               <div className="flex gap-2">
                 {["all", "male", "female"].map((gender) => (
                   <FilterTab
