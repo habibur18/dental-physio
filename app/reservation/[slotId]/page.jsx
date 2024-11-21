@@ -71,9 +71,9 @@ export default async function ReservationPage({ params }) {
           {/* payment options */}
           <div className="space-y-2">
             <div className="bg-black/30 p-6 rounded-lg border border-teal-500/30 flex items-center justify-center gap-3">
-              <CreditCard className="h-6 w-6 text-teal-400" />
+              <CreditCard className="h-16 w-16 text-teal-400" />
               <span className="text-teal-100">
-                Payment options will be available in the next step
+                Payment options placeholder -- Stripe or Paypal etc
               </span>
             </div>
           </div>
