@@ -188,6 +188,7 @@
 
 import ReservationDetails from "@/components/ReservationDetails";
 import ReservationForm from "@/components/ReservationForm";
+import ReservationSkeleton from "@/components/ReservationSkeleton";
 import StickyTimer from "@/components/StickyTimer";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
@@ -236,7 +237,7 @@ export default function ReservationPage({ params }) {
 
   // Block rendering until the expiration check is complete
   if (loading) {
-    return <div>Loading...</div>;
+    return <ReservationSkeleton />;
   }
 
   // Show the expired UI immediately if expired
