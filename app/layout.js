@@ -21,6 +21,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   await connectMongo();
+  console.log(process.env.NEXT_PUBLIC_BASE_URL);
   return (
     <html lang="en">
       <body

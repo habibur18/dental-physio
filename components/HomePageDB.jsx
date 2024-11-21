@@ -302,7 +302,7 @@ export function HomePageDB() {
 
   useEffect(() => {
     async function fetchSlots() {
-      const res = await fetch("/api/slots");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/slots`);
       const data = await res.json();
       setSlots(data);
 

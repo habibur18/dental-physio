@@ -468,7 +468,9 @@ export function CalendarTest() {
   useEffect(() => {
     async function fetchSlots() {
       try {
-        const res = await fetch("/api/slots");
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/slots`
+        );
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }

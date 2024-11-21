@@ -40,7 +40,9 @@ export function NewCalendar() {
     async function fetchSlots() {
       try {
         // setIsLoading(true);
-        const res = await fetch("/api/slots");
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/slots`
+        );
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
