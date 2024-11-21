@@ -6,6 +6,7 @@ const SlotSchema = new mongoose.Schema({
   time: { type: String, required: true },
   doctor: { type: String, required: true },
   gender: { type: String, required: true },
+  revervation: { type: Date },
 });
 
 export const SlotModel =

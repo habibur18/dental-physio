@@ -10,7 +10,6 @@ import AboutSection from "./AboutUs";
 import ContactSection from "./ContactUs";
 import Footer from "./Footer";
 import HeroSection from "./HeroSection";
-import Navbar from "./Navbar";
 import { NewCalendar } from "./NewCalenderSection";
 import ServicesSection from "./ServiceSection";
 import TeamSection from "./TeamSection";
@@ -58,7 +57,7 @@ export function BlockPage() {
           </Button>
         </div>
       </header>
-      <Navbar />
+
       <main className="flex-1">
         {/* Hero section */}
         <section className="hidden relative py-20 md:py-32  h-[600px] overflow-hidden">

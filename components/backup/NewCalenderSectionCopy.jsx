@@ -24,7 +24,6 @@ import {
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 
 export function NewCalendar() {
@@ -34,7 +33,6 @@ export function NewCalendar() {
   const [doctorGender, setDoctorGender] = useState("all");
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
-  const router = useRouter();
   // const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -270,34 +268,6 @@ export function NewCalendar() {
     );
   }
 
-  // reservation the slot onclick
-  const handleSlotReservation = async (_id) => {
-    try {
-      const res = await fetch(`/api/slots/${_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      // If the response status is OK (200), proceed with the redirection
-      if (res.ok) {
-        // You don't need to check for `status: "success"` in the body anymore.
-        const data = await res.json(); // Optional: Log the data for debugging
-
-        console.log(data);
-        // router.push(`/reservation/${_id}`); // Redirect to the reservation page
-        // window.location.href = `/reservation/${_id}`;
-        window.open(`/reservation/${_id}`, "_blank");
-      } else {
-        throw new Error("Failed to update the reservation.");
-      }
-    } catch (err) {
-      // Optionally handle errors, like showing a message to the user
-      console.log(err.message);
-    }
-  };
-
   return (
     <Suspense fallback={<div>loading.................. </div>}>
       <article
@@ -410,7 +380,6 @@ export function NewCalendar() {
                         <div
                           key={slot._id}
                           className="border border-teal-500/20 p-4 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/[0.15] transition-colors cursor-pointer"
-                          onClick={() => handleSlotReservation(slot._id)}
                         >
                           <div>
                             <div className="text-lg font-semibold text-white">
