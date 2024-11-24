@@ -885,7 +885,7 @@ export default function TestimonialTwo() {
   return (
     <ThemeProvider theme={theme}>
       <div className="select-none py-16 md:py-24 bg-gradient-to-br from-teal-900 via-black to-teal-900 text-white relative overflow-hidden">
-        <main>
+        <main className="relative z-20">
           <div className="container mx-auto text-center text-4xl font-bold mb-12">
             <h1>What Our Patients Say</h1>
           </div>
