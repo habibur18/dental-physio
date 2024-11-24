@@ -1170,7 +1170,7 @@ export default function TestimonialTwo() {
               )}
             </Box>
           </Box>
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
+          {/* <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div> */}
         </main>
       </div>
     </ThemeProvider>
