@@ -491,10 +491,10 @@ export default function HeroSection() {
                     asChild
                     size="lg"
                     variant="outline"
-                    className="bg-white/5 hover:bg-white/10 text-white border-white/20 rounded-full px-8 h-12 text-lg group"
+                    className="bg-white/5 hover:border-teal-600 hover:border-2 hover:bg-white/10 hover:text-white text-white group duration-0 border-white/20 rounded-full px-8 h-12 text-lg group"
                   >
                     <Link href="#locations">
-                      <MapPin className="mr-2 h-4 w-4" />
+                      <MapPin className="mr-2 h-4 w-4 group-hover:text-teal-500" />
                       Find Locations
                     </Link>
                   </Button>
