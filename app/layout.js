@@ -28,7 +28,12 @@ export default async function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        {children}
+        <div className="relative">
+          <div className="relative z-">{children}</div>
+
+          {/* Add another div for gradient background with a lower z-index, but still above the parent background */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#0d9488_1px,transparent_1px),linear-gradient(to_bottom,#0d9488_3px,transparent_3px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_70%_at_60%_40%,#000_70%,transparent_110%)] opacity-10 z-0" />
+        </div>
       </body>
     </html>
   );

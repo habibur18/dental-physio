@@ -103,7 +103,6 @@ export default function ReservationForm() {
                     mode="multiple"
                     selected={date}
                     onSelect={setDate}
-                    initialFocus
                   />
                 </PopoverContent>
               </Popover>

@@ -22,10 +22,10 @@ import {
   startOfMonth,
   subMonths,
 } from "date-fns";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import CalendarLoading from "./CalenderLoading";
 
 export function NewCalendar() {
@@ -39,6 +39,8 @@ export function NewCalendar() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFirstFetch, setIsFirstFetch] = useState(true); // Track the first fetch
+  const [isPending, startTransition] = useTransition();
+  const [selectedSlot, setSelectedSlot] = useState("");
 
   // useEffect(() => {
   //   async function fetchSlots() {
@@ -323,39 +325,72 @@ export function NewCalendar() {
   }
 
   // reservation the slot onclick
-  const handleSlotReservation = async (_id) => {
-    try {
-      const res = await fetch(`/api/slots/${_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
-      // If the response status is OK (200), proceed with the redirection
-      if (res.ok) {
-        // You don't need to check for `status: "success"` in the body anymore.
-        const data = await res.json(); // Optional: Log the data for debugging
+  // const handleSlotReservation = async (_id) => {
+  //   try {
+  //     const res = await fetch(`/api/slots/${_id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-        console.log(data);
-        router.push(`/reservation/${_id}`); // Redirect to the reservation page
-        // window.location.href = `/reservation/${_id}`;
-        // window.open(`/reservation/${_id}`, "_blank");
-      } else {
-        throw new Error("Failed to update the reservation.");
+  //     // If the response status is OK (200), proceed with the redirection
+  //     if (res.ok) {
+  //       // You don't need to check for `status: "success"` in the body anymore.
+  //       const data = await res.json(); // Optional: Log the data for debugging
+
+  //       console.log(data);
+  //       router.push(`/reservation/${_id}`); // Redirect to the reservation page
+  //       // window.location.href = `/reservation/${_id}`;
+  //       // window.open(`/reservation/${_id}`, "_blank");
+  //     } else {
+  //       throw new Error("Failed to update the reservation.");
+  //     }
+  //   } catch (err) {
+  //     // Optionally handle errors, like showing a message to the user
+  //     console.log(err.message);
+  //   }
+  // }
+
+  const handleSlotReservation = (_id) => {
+    setSelectedSlot(_id);
+    startTransition(async () => {
+      try {
+        const res = await fetch(`/api/slots/${_id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        // If the response status is OK (200), proceed with the redirection
+        if (res.ok) {
+          // You don't need to check for `status: "success"` in the body anymore.
+          const data = await res.json(); // Optional: Log the data for debugging
+
+          console.log(data);
+          router.push(`/reservation/${_id}`); // Redirect to the reservation page
+          // window.location.href = `//reservation/${_id}`;
+          // window.open(`/reservation/${_id}`, "_blank");
+        } else {
+          throw new Error("Failed to update the reservation.");
+        }
+      } catch (err) {
+        // Optionally handle errors, like showing a message to the user
+        console.log(err.message);
+      } finally {
+        setSelectedSlot("");
       }
-    } catch (err) {
-      // Optionally handle errors, like showing a message to the user
-      console.log(err.message);
-    }
+    });
   };
 
   return (
-    <Suspense fallback={<div>loading.................. </div>}>
-      <article
-        id="book"
-        className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"
-      >
+    <article
+      id="book"
+      className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"
+    >
+      <div className="relative z-20">
         <Card className="w-full max-w-[1600px] mx-auto bg-transparent border-none shadow-none">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold text-white">
@@ -462,7 +497,6 @@ export function NewCalendar() {
                         <div
                           key={slot._id}
                           className="border border-teal-500/20 p-4 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/[0.15] transition-colors cursor-pointer"
-                          onClick={() => handleSlotReservation(slot._id)}
                         >
                           <div>
                             <div className="text-lg font-semibold text-white">
@@ -491,8 +525,17 @@ export function NewCalendar() {
                             <Button
                               variant="outline"
                               className="w-full bg-teal-500/10 hover:bg-teal-500 text-teal-100 hover:text-white text-lg duration-300 border-teal-500/30"
+                              onClick={() => handleSlotReservation(slot._id)}
+                              disabled={isPending && slot._id === selectedSlot}
                             >
-                              Book Now
+                              {isPending && slot._id === selectedSlot ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Processing...
+                                </>
+                              ) : (
+                                "Book Now"
+                              )}
                             </Button>
                           </div>
                         </div>
@@ -528,8 +571,8 @@ export function NewCalendar() {
           </CardContent>
         </Card>
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
-      </article>
-    </Suspense>
+      </div>
+    </article>
   );
 }
 

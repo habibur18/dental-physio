@@ -394,182 +394,194 @@ import Image from "next/image";
 export default function ServicesSection() {
   // bg-gradient-to-br from-black via-teal-900 to-black
   return (
-    <section
+    <div
       id="services"
-      className="py-16 md:py-24 bg-gradient-to-br from-teal-900 via-black to-teal-900 relative overflow-hidden"
+      className=" py-16 md:py-24 bg-gradient-to-br from-teal-900 via-black to-teal-900 overflow-hidden"
     >
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-white bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-white">
-          Our Services
-        </h2>
-        <Tabs defaultValue="general" className="w-full">
-          <TabsList className="w-full flex justify-between max-w-[640px] mx-auto bg-black/30 backdrop-blur-sm rounded-full p-2 mb-8">
-            <TabsTrigger
-              value="general"
-              className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-teal-400 data-[state=active]:text-white text-teal-100 rounded-full transition-all duration-300"
-            >
-              General Dentistry
-            </TabsTrigger>
-            <TabsTrigger
-              value="cosmetic"
-              className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-teal-400 data-[state=active]:text-white text-teal-100 rounded-full transition-all duration-300"
-            >
-              Cosmetic Dentistry
-            </TabsTrigger>
-            <TabsTrigger
-              value="orthodontics"
-              className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-teal-400 data-[state=active]:text-white text-teal-100 rounded-full transition-all duration-300"
-            >
-              Orthodontics
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="general">
-            <Card className="bg-[#002626] border-none">
-              <CardContent className="p-6 md:p-8">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-4">
-                        General Dentistry
-                      </h3>
-                      <p className="text-teal-100 leading-relaxed">
-                        Our general dentistry services focus on preventive care
-                        and maintaining your overall oral health. We provide
-                        comprehensive check-ups, cleanings, and treatments to
-                        ensure your smile stays healthy and bright.
-                      </p>
+      <section className="relative z-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-white bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-white">
+            Our Services
+          </h2>
+          <Tabs defaultValue="general" className="w-full">
+            <TabsList className="w-full flex justify-between max-w-[640px] mx-auto bg-teal-900/40 backdrop-blur-sm rounded-full p-3 h-14 mb-8">
+              <TabsTrigger
+                value="general"
+                className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-teal-400 data-[state=active]:text-white text-teal-100 rounded-full h-10 transition-all duration-300"
+              >
+                General Dentistry
+              </TabsTrigger>
+              <TabsTrigger
+                value="cosmetic"
+                className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-teal-400 data-[state=active]:text-white text-teal-100 rounded-full h-10 transition-all duration-300"
+              >
+                Cosmetic Dentistry
+              </TabsTrigger>
+              <TabsTrigger
+                value="orthodontics"
+                className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-teal-400 data-[state=active]:text-white text-teal-100 rounded-full h-10 transition-all duration-300"
+              >
+                Orthodontics
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="general">
+              <Card className="bg-[#002626] border-none">
+                <CardContent className="p-6 md:p-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-4">
+                          General Dentistry
+                        </h3>
+                        <p className="text-teal-100 leading-relaxed">
+                          Our general dentistry services focus on preventive
+                          care and maintaining your overall oral health. We
+                          provide comprehensive check-ups, cleanings, and
+                          treatments to ensure your smile stays healthy and
+                          bright.
+                        </p>
+                      </div>
+                      <ul className="space-y-4">
+                        {[
+                          "Routine check-ups and cleanings",
+                          "Cavity fillings and root canals",
+                          "Gum disease treatment",
+                        ].map((item, index) => (
+                          <li
+                            key={index}
+                            className="flex items-center space-x-3"
+                          >
+                            <div className="relative">
+                              <div className="absolute inset-0 bg-teal-500/20 rounded-full blur" />
+                              <CheckCircle className="relative text-teal-300 w-5 h-5" />
+                            </div>
+                            <span className="text-teal-100">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="space-y-4">
-                      {[
-                        "Routine check-ups and cleanings",
-                        "Cavity fillings and root canals",
-                        "Gum disease treatment",
-                      ].map((item, index) => (
-                        <li key={index} className="flex items-center space-x-3">
-                          <div className="relative">
-                            <div className="absolute inset-0 bg-teal-500/20 rounded-full blur" />
-                            <CheckCircle className="relative text-teal-300 w-5 h-5" />
-                          </div>
-                          <span className="text-teal-100">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <AspectRatio
+                      ratio={16 / 9}
+                      className="bg-black/30 rounded-lg overflow-hidden"
+                    >
+                      <Image
+                        src="https://cdn.pixabay.com/photo/2014/08/26/21/54/dentist-428646_1280.jpg"
+                        alt="General Dentistry"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-lg transition-transform duration-500 hover:scale-105"
+                      />
+                    </AspectRatio>
                   </div>
-                  <AspectRatio
-                    ratio={16 / 9}
-                    className="bg-black/30 rounded-lg overflow-hidden"
-                  >
-                    <Image
-                      src="https://cdn.pixabay.com/photo/2014/08/26/21/54/dentist-428646_1280.jpg"
-                      alt="General Dentistry"
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-lg transition-transform duration-500 hover:scale-105"
-                    />
-                  </AspectRatio>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="cosmetic">
-            <Card className="bg-[#002626] border-none">
-              <CardContent className="p-6 md:p-8">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-4">
-                        Cosmetic Dentistry
-                      </h3>
-                      <p className="text-teal-100 leading-relaxed">
-                        Enhance your smile with our cosmetic dentistry services.
-                        We offer a range of treatments to improve the appearance
-                        of your teeth, giving you the confidence to show off
-                        your smile.
-                      </p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="cosmetic">
+              <Card className="bg-[#002626] border-none">
+                <CardContent className="p-6 md:p-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-4">
+                          Cosmetic Dentistry
+                        </h3>
+                        <p className="text-teal-100 leading-relaxed">
+                          Enhance your smile with our cosmetic dentistry
+                          services. We offer a range of treatments to improve
+                          the appearance of your teeth, giving you the
+                          confidence to show off your smile.
+                        </p>
+                      </div>
+                      <ul className="space-y-4">
+                        {[
+                          "Teeth whitening",
+                          "Porcelain veneers",
+                          "Dental bonding and contouring",
+                        ].map((item, index) => (
+                          <li
+                            key={index}
+                            className="flex items-center space-x-3"
+                          >
+                            <div className="relative">
+                              <div className="absolute inset-0 bg-teal-500/20 rounded-full blur" />
+                              <CheckCircle className="relative text-teal-300 w-5 h-5" />
+                            </div>
+                            <span className="text-teal-100">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="space-y-4">
-                      {[
-                        "Teeth whitening",
-                        "Porcelain veneers",
-                        "Dental bonding and contouring",
-                      ].map((item, index) => (
-                        <li key={index} className="flex items-center space-x-3">
-                          <div className="relative">
-                            <div className="absolute inset-0 bg-teal-500/20 rounded-full blur" />
-                            <CheckCircle className="relative text-teal-300 w-5 h-5" />
-                          </div>
-                          <span className="text-teal-100">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <AspectRatio
+                      ratio={16 / 9}
+                      className="bg-black/30 rounded-lg overflow-hidden"
+                    >
+                      <Image
+                        src="https://cdn.pixabay.com/photo/2017/07/23/10/44/dentist-2530990_1280.jpg"
+                        alt="Cosmetic Dentistry"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-lg transition-transform duration-500 hover:scale-105"
+                      />
+                    </AspectRatio>
                   </div>
-                  <AspectRatio
-                    ratio={16 / 9}
-                    className="bg-black/30 rounded-lg overflow-hidden"
-                  >
-                    <Image
-                      src="https://cdn.pixabay.com/photo/2017/07/23/10/44/dentist-2530990_1280.jpg"
-                      alt="Cosmetic Dentistry"
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-lg transition-transform duration-500 hover:scale-105"
-                    />
-                  </AspectRatio>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="orthodontics">
-            <Card className="bg-[#002626] border-none">
-              <CardContent className="p-6 md:p-8">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-4">
-                        Orthodontics
-                      </h3>
-                      <p className="text-teal-100 leading-relaxed">
-                        Achieve a straighter, more aligned smile with our
-                        orthodontic treatments. We offer various options to
-                        correct misaligned teeth and improve your bite,
-                        enhancing both function and aesthetics.
-                      </p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="orthodontics">
+              <Card className="bg-[#002626] border-none">
+                <CardContent className="p-6 md:p-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-4">
+                          Orthodontics
+                        </h3>
+                        <p className="text-teal-100 leading-relaxed">
+                          Achieve a straighter, more aligned smile with our
+                          orthodontic treatments. We offer various options to
+                          correct misaligned teeth and improve your bite,
+                          enhancing both function and aesthetics.
+                        </p>
+                      </div>
+                      <ul className="space-y-4">
+                        {[
+                          "Traditional braces",
+                          "Clear aligners",
+                          "Retainers and post-treatment care",
+                        ].map((item, index) => (
+                          <li
+                            key={index}
+                            className="flex items-center space-x-3"
+                          >
+                            <div className="relative">
+                              <div className="absolute inset-0 bg-teal-500/20 rounded-full blur" />
+                              <CheckCircle className="relative text-teal-300 w-5 h-5" />
+                            </div>
+                            <span className="text-teal-100">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="space-y-4">
-                      {[
-                        "Traditional braces",
-                        "Clear aligners",
-                        "Retainers and post-treatment care",
-                      ].map((item, index) => (
-                        <li key={index} className="flex items-center space-x-3">
-                          <div className="relative">
-                            <div className="absolute inset-0 bg-teal-500/20 rounded-full blur" />
-                            <CheckCircle className="relative text-teal-300 w-5 h-5" />
-                          </div>
-                          <span className="text-teal-100">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <AspectRatio
+                      ratio={16 / 9}
+                      className="bg-black/30 rounded-lg overflow-hidden"
+                    >
+                      <Image
+                        src="https://cdn.pixabay.com/photo/2016/06/05/14/16/dentist-1437430_960_720.jpg"
+                        alt="Orthodontics"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-lg transition-transform duration-500 hover:scale-105"
+                      />
+                    </AspectRatio>
                   </div>
-                  <AspectRatio
-                    ratio={16 / 9}
-                    className="bg-black/30 rounded-lg overflow-hidden"
-                  >
-                    <Image
-                      src="https://cdn.pixabay.com/photo/2016/06/05/14/16/dentist-1437430_960_720.jpg"
-                      alt="Orthodontics"
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-lg transition-transform duration-500 hover:scale-105"
-                    />
-                  </AspectRatio>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-      {/*     <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div> */}
-    </section>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+        {/*     <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div> */}
+      </section>
+    </div>
   );
 }

@@ -191,9 +191,10 @@ import ReservationForm from "@/components/ReservationForm";
 import ReservationSkeleton from "@/components/ReservationSkeleton";
 import StickyTimer from "@/components/StickyTimer";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
-export default function ReservationPage({ params }) {
+export default function ReservationPage(props) {
+  const params = use(props.params);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true); // Ensure proper loading state
   const [expired, setExpired] = useState(false); // Handle expiration
@@ -243,7 +244,7 @@ export default function ReservationPage({ params }) {
   // Show the expired UI immediately if expired
   if (expired) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white flex flex-col items-center justify-center">
+      <div className="relative z-20 min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white flex flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-teal-400 mb-4">
           Reservation Expired
         </h1>
@@ -264,32 +265,34 @@ export default function ReservationPage({ params }) {
 
   // Show reservation details if valid
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-teal-900 to-black text-white">
-      <StickyTimer
-        reservation={data.revervation}
-        slotId={slotId}
-        onTimeExpired={() => setExpired(true)} // Handle expiration in real time
-      />
-      <main className="container max-w-[1000px] mx-auto p-4 mt-8">
-        <ReservationDetails slotData={data} />
-        <div className="my-8">
-          <ReservationForm />
-          <div className="space-y-2">
-            <div className="bg-black/30 p-6 rounded-lg border border-teal-500/30 flex items-center justify-center gap-3">
-              <span className="text-teal-100">
-                Payment options will be integrated with -- Stripe or PayPal
-              </span>
+    <main className="min-h-screen  bg-gradient-to-br from-black via-teal-900 to-black text-white">
+      <div className="relative z-20">
+        <StickyTimer
+          reservation={data.revervation}
+          slotId={slotId}
+          onTimeExpired={() => setExpired(true)} // Handle expiration in real time
+        />
+        <main className="container max-w-[1000px] mx-auto p-4 mt-8">
+          <ReservationDetails slotData={data} />
+          <div className="my-8">
+            <ReservationForm />
+            <div className="space-y-2">
+              <div className="bg-black/30 p-6 rounded-lg border border-teal-500/30 flex items-center justify-center gap-3">
+                <span className="text-teal-100">
+                  Payment options will be integrated with -- Stripe or PayPal
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <Button
-          type="submit"
-          size="lg"
-          className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-6 text-lg"
-        >
-          Confirm Reservation
-        </Button>
-      </main>
-    </div>
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-6 text-lg"
+          >
+            Confirm Reservation
+          </Button>
+        </main>
+      </div>
+    </main>
   );
 }

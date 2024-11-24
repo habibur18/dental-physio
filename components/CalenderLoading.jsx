@@ -2,8 +2,8 @@ import { CalendarDays } from "lucide-react";
 
 export default function CalendarLoading() {
   return (
-    <div className="bg-gradient-to-br from-teal-950 to-teal-900 p-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="relative z-20 bg-gradient-to-br from-teal-950 to-teal-900 p-8">
+      <div className=" max-w-4xl mx-auto space-y-8">
         {/* Header Section */}
         <div className="space-y-2 animate-pulse text-center flex flex-col items-center">
           <div className="h-8 w-64 bg-teal-800/50 rounded-lg" />
@@ -56,7 +56,7 @@ export default function CalendarLoading() {
         </div>
 
         {/* Loading Indicator */}
-        <div className="flex items-center justify-center gap-4 py-8">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-4 py-8">
           <CalendarDays className="w-6 h-6 text-teal-400 animate-spin" />
           <div className="text-teal-300 text-lg font-medium">
             Loading Your Schedule

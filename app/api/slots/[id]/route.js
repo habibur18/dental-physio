@@ -4,7 +4,8 @@ import { SlotModel } from "@/models/slot-model";
 import { NextResponse } from "next/server";
 
 // get the slot by id
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
   try {
     await connectMongo();
     const { id } = params;
@@ -19,7 +20,8 @@ export async function GET(request, { params }) {
 }
 
 // add reservation to the slot
-export async function PUT(request, { params }) {
+export async function PUT(request, props) {
+  const params = await props.params;
   try {
     await connectMongo();
     // add reservations to 10 minutes only
@@ -34,7 +36,8 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function PATCH(request, { params }) {
+export async function PATCH(request, props) {
+  const params = await props.params;
   try {
     await connectMongo();
     const { id } = params;

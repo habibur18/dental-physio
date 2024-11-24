@@ -157,70 +157,71 @@ const CompactCard = ({ member }) => (
 );
 export default function TeamSection() {
   return (
-    <section
-      id="team"
-      className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden"
-    >
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
-            Meet Our Expert Team
-          </h2>
-          <p className="text-teal-100 text-lg">
-            Our experienced dental professionals are committed to providing you
-            with the highest quality care
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {teamMembers.slice(0, 3).map((member, index) => (
-            <FeaturedCard key={index} member={member} />
-          ))}
-          <div className="lg:col-span-2">
-            <Card className="bg-gradient-to-tl from-teal-900 to-black via-teal-900 border-teal-500 p-6">
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Our Specialties
-              </h3>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {teamMembers.slice(3, 7).map((member, index) => (
-                  <CompactCard key={index} member={member} />
-                ))}
-              </div>
-            </Card>
-          </div>
-          <div className="lg:col-span-1">
-            <Card className="bg-gradient-to-br from-teal-700/95 to-black border-teal-500/40 p-6 h-full flex flex-col justify-center items-center text-center">
-              <Tooth className="w-16 h-16 text-teal-400 mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Comprehensive Dental Care
-              </h3>
-              <p className="text-teal-100 mb-6">
-                From routine check-ups to advanced procedures, we&apos;ve got
-                you covered.
+    <section id="team">
+      <div className="py-16 md:py-24 bg-gradient-to-br from-black via-teal-900 to-black relative overflow-hidden">
+        <div className="relative z-20 py-24">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                Meet Our Expert Team
+              </h2>
+              <p className="text-teal-100 text-lg">
+                Our experienced dental professionals are committed to providing
+                you with the highest quality care
               </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {teamMembers.slice(0, 3).map((member, index) => (
+                <FeaturedCard key={index} member={member} />
+              ))}
+              <div className="lg:col-span-2">
+                <Card className="bg-gradient-to-tl from-teal-900 to-black via-teal-900 border-teal-500 p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">
+                    Our Specialties
+                  </h3>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {teamMembers.slice(3, 7).map((member, index) => (
+                      <CompactCard key={index} member={member} />
+                    ))}
+                  </div>
+                </Card>
+              </div>
+              <div className="lg:col-span-1">
+                <Card className="bg-gradient-to-br from-teal-700/95 to-black border-teal-500/40 p-6 h-full flex flex-col justify-center items-center text-center">
+                  <Tooth className="w-16 h-16 text-teal-400 mb-4" />
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    Comprehensive Dental Care
+                  </h3>
+                  <p className="text-teal-100 mb-6">
+                    From routine check-ups to advanced procedures, we&apos;ve
+                    got you covered.
+                  </p>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-teal-500 hover:bg-teal-600 text-white rounded-full px-8"
+                  >
+                    <Link href="/services">Explore Our Services</Link>
+                  </Button>
+                </Card>
+              </div>
+            </div>
+
+            <div className="text-center">
               <Button
                 asChild
                 size="lg"
-                className="bg-teal-500 hover:bg-teal-600 text-white rounded-full px-8"
+                className="bg-white/10 hover:bg-white/20 text-white rounded-full px-8 border border-teal-500/50"
               >
-                <Link href="/services">Explore Our Services</Link>
+                <Link href="/team">View Our Full Team</Link>
               </Button>
-            </Card>
+            </div>
           </div>
-        </div>
-
-        <div className="text-center">
-          <Button
-            asChild
-            size="lg"
-            className="bg-white/10 hover:bg-white/20 text-white rounded-full px-8 border border-teal-500/50"
-          >
-            <Link href="/team">View Our Full Team</Link>
-          </Button>
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
         </div>
       </div>
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent"></div>
     </section>
   );
 }
