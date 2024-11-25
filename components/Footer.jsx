@@ -37,7 +37,7 @@ export default function Footer() {
             transition={{ duration: 0.5 }}
           >
             <h3 className="text-2xl font-bold mb-4 text-teal-300">
-              Austin Physio Clinic
+              Austin Dental Care
             </h3>
             <p className="text-sm text-teal-100">
               Restoring health and improving lives through expert physiotherapy
