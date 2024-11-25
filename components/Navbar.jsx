@@ -28,7 +28,8 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Tooth className="h-8 w-8 text-teal-500" />
-            <span className="text-2xl font-bold text-white">Austin Physio</span>
+            {/* <span className="text-2xl font-bold text-white">Austin  </span> */}
+            <span className="text-2xl font-bold text-white">Austin Dental</span>
           </Link>
 
           <nav className="hidden lg:flex space-x-1">
