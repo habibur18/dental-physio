@@ -266,7 +266,7 @@ export default function ReservationPage(props) {
   // Show reservation details if valid
   return (
     <main className="min-h-screen  bg-gradient-to-br from-black via-teal-900 to-black text-white">
-      <div className="relative z-20">
+      <div className="relative z-[55]">
         <StickyTimer
           reservation={data.revervation}
           slotId={slotId}
@@ -276,8 +276,8 @@ export default function ReservationPage(props) {
           <ReservationDetails slotData={data} />
           <div className="my-8">
             <ReservationForm />
-            <div className="space-y-2">
-              <div className="bg-black/30 p-6 rounded-lg border border-teal-500/30 flex items-center justify-center gap-3">
+            <div className="my-8">
+              <div className="bg-black/30 h-[100px] p-6 rounded-lg border border-teal-500/30 flex items-center justify-center gap-3">
                 <span className="text-teal-100">
                   Payment options will be integrated with -- Stripe or PayPal
                 </span>

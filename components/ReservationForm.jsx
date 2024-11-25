@@ -1,8 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { Calendar, CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import { Button } from "./ui/button";
 import {
   Card,
   CardContent,
@@ -12,7 +9,9 @@ import {
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+
+import DateOfBirthPicker from "./DateOfBirthPicker";
+import PhoneNumberInput from "./PhoneNumberInput";
 
 export default function ReservationForm() {
   const [date, setDate] = useState();
@@ -36,7 +35,7 @@ export default function ReservationForm() {
               <Input
                 id="firstName"
                 placeholder="John"
-                className="bg-black/30 border-teal-500/30 focus:border-teal-400 text-white"
+                className="!bg-teal/30 border-teal-500/30 focus:border-teal-400 text-white"
               />
             </div>
             <div className="space-y-2">
@@ -46,7 +45,7 @@ export default function ReservationForm() {
               <Input
                 id="lastName"
                 placeholder="Doe"
-                className="bg-black/30 border-teal-500/30 focus:border-teal-400 text-white"
+                className="!bg-teal/30 border-teal-500/30 focus:border-teal-400 text-white"
               />
             </div>
             <div className="space-y-2">
@@ -57,10 +56,10 @@ export default function ReservationForm() {
                 id="email"
                 type="email"
                 placeholder="john@example.com"
-                className="bg-black/30 border-teal-500/30 focus:border-teal-400 text-white"
+                className="!bg-teal/30 border-teal-500/30 focus:border-teal-400 text-white"
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label className="text-teal-300" htmlFor="phone">
                 Phone
               </Label>
@@ -68,9 +67,10 @@ export default function ReservationForm() {
                 id="phone"
                 type="tel"
                 placeholder="+1 (555) 000-0000"
-                className="bg-black/30 border-teal-500/30 focus:border-teal-400 text-white"
+                className="!bg-teal/30 border-teal-500/30 focus:border-teal-400 text-white"
               />
-            </div>
+            </div> */}
+            <PhoneNumberInput />
             <div className="space-y-2">
               <Label className="text-teal-300" htmlFor="password">
                 Password
@@ -78,35 +78,80 @@ export default function ReservationForm() {
               <Input
                 id="password"
                 type="text"
-                className="bg-black/30 border-teal-500/30 focus:border-teal-400 text-white"
+                className="!bg-teal/30 border-teal-500/30 focus:border-teal-400 text-white"
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label className="text-teal-300" htmlFor="dob">
-                Date of Birth
+                <span className="text-teal-300">Date of Birth</span>
               </Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal text-white bg-black/30 border-teal-500/30 hover:bg-black/40",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="multiple"
-                    selected={date}
-                    onSelect={setDate}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    sx={{ color: "white" }}
+                    label="Select date of birth"
                   />
-                </PopoverContent>
-              </Popover>
-            </div>
+                </DemoContainer>
+              </LocalizationProvider>
+            </div> */}
+            {/* 2nd */}
+            {/* <div className="space-y-2">
+              <Label className="text-teal-300" htmlFor="dob">
+                <span className="text-teal-300">Date of Birth</span>
+              </Label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Select date of birth"
+                    sx={{
+                      color: "white", // DatePicker text color
+                      "& .MuiInputBase-root": {
+                        color: "white", // Input text color
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "teal", // Label text color
+                      },
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "teal", // Input border color
+                      },
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </div> */}
+
+            {/* <div className="space-y-2">
+              <Label className="text-teal-300" htmlFor="dob">
+                <span className="text-teal-300">Date of Birth</span>
+              </Label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Select date of birth"
+                    sx={{
+                      color: "white", // DatePicker text color
+                      "& .MuiInputBase-root": {
+                        color: "white", // Input text color
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white", // Label text color
+                      },
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "teal", // Input border color
+                      },
+                      "& .MuiSvgIcon-root": {
+                        color: "teal", // Calendar icon color
+                      },
+                      // on hover make the outline color teal
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "teal",
+                      },
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </div> */}
+            <DateOfBirthPicker />
           </div>
         </form>
       </CardContent>
