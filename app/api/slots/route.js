@@ -32,7 +32,15 @@ export async function GET() {
     );
 
     // Fetch slots with no reservation data
-    const slots = await SlotModel.find({ revervation: { $exists: false } });
+    const withoutReservations = await SlotModel.find({
+      revervation: { $exists: false },
+    });
+    // and only send future slots only
+    // const futureSlots = withoutReservations.filter((slot) => {
+    const slots = withoutReservations.filter((slot) => {
+      const slotDate = new Date(slot.date);
+      return slotDate > currentDate;
+    });
 
     return NextResponse.json(slots, { status: 200 });
   } catch (error) {

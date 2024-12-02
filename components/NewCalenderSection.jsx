@@ -106,9 +106,13 @@ export function NewCalendar() {
 
         if (dates.length > 0) {
           const newMinDate = min(dates);
+          console.log("newMinDate", newMinDate);
           const newMaxDate = max(dates);
           setMinDate(newMinDate);
           setMaxDate(newMaxDate);
+          if (isFirstFetch) {
+            setSelectedMonth(newMinDate);
+          }
         }
       } catch (error) {
         console.error("Error fetching slots:", error);
